@@ -12,3 +12,15 @@ Check the [Contribution guide](https://github.com/aminecmi/isitexpired/blob/mast
 - [Check what changed](https://github.com/aminecmi/isitexpired/blob/master/CHANGELOG.md)
 - [See what I'm doing](https://github.com/aminecmi/isitexpired/projects/1)
 - [Create an issue, or request a new feature](https://github.com/aminecmi/isitexpired/issues)
+
+
+
+
+
+## Roadmap
+
+- Simple CRUD of items. (name, image, List[Tuple(expiration date, quantity)])
+
+- Notifications (is expiring, need to buy)
+
+- Read expiration date from image (Google Vision Api ?)

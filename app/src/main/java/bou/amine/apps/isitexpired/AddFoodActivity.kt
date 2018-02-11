@@ -1,5 +1,6 @@
 package bou.amine.apps.isitexpired
 
+import android.app.Application
 import android.arch.lifecycle.Observer
 import android.arch.persistence.room.Room
 import android.net.Uri
@@ -21,7 +22,7 @@ import kotlinx.coroutines.experimental.async
 class AddFoodActivity : AppCompatActivity() {
 
     private var food: Pair<Food, List<FoodDetail>>? = null
-    private lateinit var db: AppDatabase
+    private var db: AppDatabase? = null
     private var foodId: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,14 +33,11 @@ class AddFoodActivity : AppCompatActivity() {
 
         foodId = intent.getLongExtra("foodId", -1)
 
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "database-name"
-        ).build()
+        db = AppDatabase.getInstance(applicationContext)
 
         if (foodId != (-1).toLong()) {
-            db.foodDao().findFoodById(foodId).observe(this, Observer<Food> { f ->
-              db.foodDetailDao().findFoodDetailByFoodId(foodId).observe(this, Observer<List<FoodDetail>> { d ->
+            db?.foodDao()?.findFoodById(foodId)?.observe(this, Observer<Food> { f ->
+              db?.foodDetailDao()?.findFoodDetailByFoodId(foodId)?.observe(this, Observer<List<FoodDetail>> { d ->
                   if (f != null) {
                       food = Pair(f, d.orEmpty())
                       invalidateOptionsMenu()
@@ -104,9 +102,9 @@ class AddFoodActivity : AppCompatActivity() {
                 if (food != null) {
                     async {
                         if (foodId != (-1).toLong()) {
-                            db.foodDao().updateFood(food!!.first)
+                            db?.foodDao()?.updateFood(food!!.first)
                         } else {
-                            db.foodDao().insertFood(food!!.first)
+                            db?.foodDao()?.insertFood(food!!.first)
                         }
                         finish()
                     }
@@ -115,12 +113,17 @@ class AddFoodActivity : AppCompatActivity() {
             }
             R.id.delete -> {
                 async {
-                    db.foodDao().deleteFood(food!!.first)
+                    db?.foodDao()?.deleteFood(food!!.first)
                 }
                 finish()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AppDatabase.destroyInstance()
     }
 }

@@ -20,19 +20,17 @@ import java.util.*
     indices = arrayOf(Index(value = "detail_id", name = "detail_id"), Index(value = "food_id", name = "for_food_id"))
 )
 data class FoodDetail(
-    @ColumnInfo(name = "food_id") val foodId: Long,
-    @ColumnInfo(name = "date") val expirationDate: Date,
-    @ColumnInfo(name = "quantity") val quantity: Double
-) {
-    @ColumnInfo(name = "detail_id")
-    @PrimaryKey(autoGenerate = true) var id: Long = 0
-}
+    @ColumnInfo(name = "detail_id") @PrimaryKey(autoGenerate = true) var id: Long?,
+    @ColumnInfo(name = "food_id") var foodId: Long,
+    @ColumnInfo(name = "date") var expirationDate: Date,
+    @ColumnInfo(name = "quantity") var quantity: Double
+)
 
 @Entity(tableName = "food", indices = arrayOf(Index(value = "food_id", name = "food_id")))
 data class Food(
-    @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "image") val image: String
-)  {
-    @ColumnInfo(name = "food_id")
-    @PrimaryKey(autoGenerate = true) var id: Long = 0
+    @ColumnInfo(name = "food_id") @PrimaryKey(autoGenerate = true) var id: Long?,
+    @ColumnInfo(name = "name") var name: String,
+    @ColumnInfo(name = "image") var image: String
+) {
+    constructor() : this(null, "", "")
 }

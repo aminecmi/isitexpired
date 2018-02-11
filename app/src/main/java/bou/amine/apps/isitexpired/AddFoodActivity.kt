@@ -1,8 +1,6 @@
 package bou.amine.apps.isitexpired
 
-import android.app.Application
 import android.arch.lifecycle.Observer
-import android.arch.persistence.room.Room
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -29,8 +27,6 @@ class AddFoodActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_food)
 
-        editText.setText("")
-
         foodId = intent.getLongExtra("foodId", -1)
 
         db = AppDatabase.getInstance(applicationContext)
@@ -49,15 +45,17 @@ class AddFoodActivity : AppCompatActivity() {
                               .load(photoUri)
                               .apply(RequestOptions.centerCropTransform())
                               .into(imageView)
-                      } else {
-                          Glide.with(baseContext)
-                              .load(R.mipmap.ic_launcher)
-                              .apply(RequestOptions.centerCropTransform())
-                              .into(imageView)
                       }
                   }
               })
             })
+        } else {
+            editText.setText("")
+
+            Glide.with(baseContext)
+                .load(R.drawable.ic_launcher_foreground)
+                .apply(RequestOptions.centerCropTransform())
+                .into(imageView)
         }
 
         editText.addTextChangedListener(object : TextWatcher {

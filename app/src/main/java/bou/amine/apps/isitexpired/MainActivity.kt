@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager
 import bou.amine.apps.isitexpired.adapter.FoodAdapter
 import bou.amine.apps.isitexpired.database.Food
 import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v7.widget.RecyclerView
+import android.view.View
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +32,17 @@ class MainActivity : AppCompatActivity() {
             val i = Intent(this@MainActivity, AddFoodActivity::class.java)
             startActivity(i)
         }
+
+        recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && floatingActionButton.visibility === View.VISIBLE) {
+                    floatingActionButton.hide()
+                } else if (dy < 0 && floatingActionButton.visibility !== View.VISIBLE) {
+                    floatingActionButton.show()
+                }
+            }
+        })
     }
 
     override fun onResume() {

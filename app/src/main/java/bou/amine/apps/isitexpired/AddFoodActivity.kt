@@ -16,6 +16,7 @@ import java.io.File
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.coroutines.experimental.async
+import android.content.Intent
 
 class AddFoodActivity : AppCompatActivity() {
 
@@ -70,13 +71,11 @@ class AddFoodActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             }
         })
-    }
 
-    override fun onResume() {
-        super.onResume()
+        imageButton.setOnClickListener {
 
-        food = null
-        editText.setText("")
+        }
+
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
